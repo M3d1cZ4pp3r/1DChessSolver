@@ -27,6 +27,7 @@ int EvaluationTree::Evaluate(const GameState& state)
 	std::cout << "Total node number: " << Root->CountRecursive() << std::endl;
 	std::cout << "Highest depth: " << m_highestDepth << std::endl;
 	std::cout << "Cache hits: " << m_cacheHits << std::endl;
+	std::cout << "Saved node evaluations through caching: " << m_cacheSaved << std::endl;
 
 	return Root->value;
 }
@@ -79,6 +80,7 @@ int EvaluationTree::EvaluateRecursive(const GameState& state, EvaluationTreeNode
 		std::cout << "Cache hit" << std::endl;
 		m_cacheHits++;
 
+		m_cacheSaved += m_cacheStat[GetPositionIndex(state)];
 
 		switch (result)
 		{
@@ -162,6 +164,9 @@ int EvaluationTree::EvaluateRecursive(const GameState& state, EvaluationTreeNode
 		value = CachedEvaluation::Draw;
 	}
 	SetCacheEntry(state, value);
+
+	/* Also save how many nodes that saves in future */
+	m_cacheStat[GetPositionIndex(state)] = node->CountRecursive() - 1;
 
 	return node->value;
 }

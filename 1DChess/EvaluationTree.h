@@ -77,11 +77,14 @@ public:
 	* [6 * 5 * 7 * 7 * 5 * 6 * 2 * 2 / 4 = 44,100]
 	*/
 		m_positionCache = new unsigned char[44100];
+		m_cacheStat = new unsigned short[44100 * 4];
 		memset(m_positionCache, 0, 44100 * sizeof(unsigned char));
 	}
 	~EvaluationTree() {
 		delete[] m_positionCache;
+		delete[] m_cacheStat;
 		m_positionCache = nullptr;
+		m_cacheStat = nullptr;
 	}
 
 	/* Evaluate the position to the end */
@@ -107,6 +110,8 @@ private:
 	/* Cache for the position */
 	unsigned char* m_positionCache;
 
+	unsigned short* m_cacheStat;
+
 	/* get cache entry */
 	CachedEvaluation GetCacheEntry(const GameState& state);
 	void SetCacheEntry(const GameState& state, CachedEvaluation value);
@@ -124,4 +129,5 @@ private:
 	/* Some nice stats */
 	int m_highestDepth = 0;
 	int m_cacheHits = 0;
+	int m_cacheSaved = 0;
 };
