@@ -22,6 +22,12 @@ int EvaluationTree::Evaluate(const GameState& state)
 	/* Evaluate the position */
 	Root->value = EvaluateRecursive(state, Root.get());
 
+	std::cout << "----------------" << std::endl;
+	std::cout << "Evaluation stats:" << std::endl;
+	std::cout << "Total node number: " << Root->CountRecursive() << std::endl;
+	std::cout << "Highest depth: " << m_highestDepth << std::endl;
+	std::cout << "Cache hits: " << m_cacheHits << std::endl;
+
 	return Root->value;
 }
 
@@ -46,6 +52,12 @@ int EvaluationTree::EvaluateRecursive(const GameState& state, EvaluationTreeNode
     /* If the game is over, this is a leaf node. Return the value of the game */
 	if (state.IsGameOver())
 	{
+		/* Stat: Check if depth record */
+		if (node->depth > m_highestDepth)
+		{
+			m_highestDepth = node->depth;
+		}
+
 		if (state.IsMate())
 		{
 			return state.GetWinner() == Color::White ? 1 : -1;
@@ -65,6 +77,7 @@ int EvaluationTree::EvaluateRecursive(const GameState& state, EvaluationTreeNode
 			std::cout << "  ";
 		}
 		std::cout << "Cache hit" << std::endl;
+		m_cacheHits++;
 
 
 		switch (result)

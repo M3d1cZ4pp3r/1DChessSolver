@@ -18,7 +18,17 @@ const char* evalGameState(const GameState& state, EvaluationTree& eval)
        Otherwise do a quick eval */
     int value;
     if (state.IsGameOver())
-        value = eval.Evaluate(state);
+    {
+		if (state.IsMate())
+		{
+			value = state.GetWinner() == Color::White ? 1 : -1;
+		}
+		else if (state.IsDraw())
+		{
+			value = 0;
+		}
+      
+    }
     else
         value = eval.GetGameStateEvaluation(state);
 

@@ -43,6 +43,17 @@ struct EvaluationTreeNode
 		children = node->children;
 	}
 
+	int CountRecursive() const
+	{
+		int count = 1;
+		for (const EvaluationTreeNodeTransition& transition : children)
+		{
+			count += transition.node->CountRecursive();
+		}
+
+		return count;
+	}
+
 	~EvaluationTreeNode()
 	{
 		children.clear();
@@ -109,4 +120,8 @@ private:
 
 	/* Computes index of 2-bit group inside byte */
 	int GetIntraByteIndex(int positionIndex);
+
+	/* Some nice stats */
+	int m_highestDepth = 0;
+	int m_cacheHits = 0;
 };
