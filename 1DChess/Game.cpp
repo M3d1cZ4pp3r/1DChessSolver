@@ -293,14 +293,14 @@ void GameState::CalculateTargetFields(int position, std::vector<int>& targetFiel
 	}
 }
 
-void GameState::CalculateValidity()
+void GameState::CalculateBasicGameState()
 {
 	/* We need those two to compute validity. Computing the moves would lead to recursion */
 	CalculateAttackedFields();
 	CalculateChecks();
 }
 
-void GameState::CalculateStateFull()
+void GameState::FinalizeGameState()
 {
 	/* Compute remaining stuff, requiring computation of next level of game states */
 	CalculateMoves();
@@ -342,5 +342,5 @@ void GameState::MakeMoveUnchecked(const Move& move)
 	m_nextPlayer = m_nextPlayer == Color::White ? Color::Black : Color::White;
 
 	/* Basic state calculation */
-	CalculateValidity();
+	CalculateBasicGameState();
 }

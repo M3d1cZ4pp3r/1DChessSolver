@@ -37,15 +37,15 @@ public:
 
 	GameState() : m_board(Board::GetStartingPosition()), m_nextPlayer(Color::White), m_bOwnInCheck(false), m_bEnemyInCheck(false), m_gameResult(GameResult::NotFinished), m_kingCount(0), m_notKingCount(0), m_repetitionCount(1)
 	{
-		CalculateValidity();
+		CalculateBasicGameState();
 	}
 
 	/* Calculate basic information about the state, mainly move candidates and checks and validity */
-	void CalculateValidity();
+	void CalculateBasicGameState();
 
 	/* Finalize state calculation, including moves and mate (Mate not possible without all valid moves).
 	* We need to make this public and have it called manually, so we don't get in a full evaluation when checking for mate */
-	void CalculateStateFull();
+	void FinalizeGameState();
 
 	/* Get all possible moves */
 	const std::vector<Move>& GetMoves() const;

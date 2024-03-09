@@ -39,7 +39,7 @@ const char* evalGameState(const GameState& state, EvaluationTree& eval)
 int main()
 {
     GameState state;
-    state.CalculateStateFull();
+    state.FinalizeGameState();
     char input = 0;
 
     EvaluationTree eval;
@@ -78,7 +78,7 @@ int main()
         {       
             GameState newGameState = state;
             newGameState.MakeMove(moves[i]);
-            newGameState.CalculateStateFull();
+            newGameState.FinalizeGameState();
             
 
             std::cout << i + 1 << ": " << moves[i];
@@ -101,7 +101,7 @@ int main()
         if (number >= 0 && number < moves.size())
         {
 			state.MakeMove(moves[number]);
-            state.CalculateStateFull();
+            state.FinalizeGameState();
 		}
         else
         {

@@ -100,7 +100,7 @@ int EvaluationTree::EvaluateRecursive(const GameState& state, EvaluationTreeNode
 		/* Make the move */
 		GameState newState = state;
 		newState.MakeMove(move);
-		newState.CalculateStateFull();
+		newState.FinalizeGameState();
 
 		/* Create a new node */
 		EvaluationTreeNode* newNode = new EvaluationTreeNode();

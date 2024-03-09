@@ -10,19 +10,12 @@ Board::Board()
 
 Board::Board(const Board& position)
 {
-	for (int i = 0; i < BOARD_SIZE; i++)
-	{
-		m_board[i] = position.m_board[i];
-	}
+	std::copy(std::begin(position.m_board), std::end(position.m_board), m_board);
 }
 
 Board& Board::operator=(const Board& position)
 {
-	for (int i = 0; i < BOARD_SIZE; i++)
-	{
-		m_board[i] = position.m_board[i];
-	}
-	return *this;
+	std::copy(std::begin(position.m_board), std::end(position.m_board), m_board);
 }
 
 Board::~Board()

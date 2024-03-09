@@ -76,16 +76,12 @@ public:
 	* Divide by 4 as we can store 4 eval results in one byte (3 different values for eval + 1 for not evaluated = 2 bits)
 	* [6 * 5 * 7 * 7 * 5 * 6 * 2 * 2 / 4 = 44,100]
 	*/
-		m_positionCache = new unsigned char[44100];
-		m_cacheStat = new unsigned short[44100 * 4];
-		memset(m_positionCache, 0, 44100 * sizeof(unsigned char));
+		m_positionCache = std::make_unique<unsigned char[]>(44100);
+		m_cacheStat = std::make_unique<unsigned short[]>(44100 * 4);
+
+		std::fill_n(m_positionCache.get(), 44100, 0);
 	}
-	~EvaluationTree() {
-		delete[] m_positionCache;
-		delete[] m_cacheStat;
-		m_positionCache = nullptr;
-		m_cacheStat = nullptr;
-	}
+	~EvaluationTree() = default;
 
 	/* Evaluate the position to the end */
 	int Evaluate(const GameState& state);
@@ -108,9 +104,9 @@ private:
 	int EvaluateRecursive(const GameState& state, EvaluationTreeNode* node);
 
 	/* Cache for the position */
-	unsigned char* m_positionCache;
+	std::unique_ptr<unsigned char[]> m_positionCache;
 
-	unsigned short* m_cacheStat;
+	std::unique_ptr<unsigned short[]> m_cacheStat;
 
 	/* get cache entry */
 	CachedEvaluation GetCacheEntry(const GameState& state);
